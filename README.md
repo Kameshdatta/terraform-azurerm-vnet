@@ -50,6 +50,26 @@ Now Terraform core's version is v1.x and terraform-provider-azurerm's version is
 
 Please refer to the sub folders under `examples` folder. You can execute `terraform apply` command in `examples`'s sub folder to try the module. These examples are tested against every PR with the [E2E Test](#Pre-Commit--Pr-Check--Test).
 
+## Example: Virtual Network with Private Endpoint
+
+This example demonstrates how to deploy a VNet with a private endpoint.
+
+```hcl
+module "vnet" {
+  source  = "Azure/terraform-azurerm-vnet"
+  version = "3.0.0"
+
+  vnet_name            = "my-private-vnet"
+  address_space        = ["10.0.0.0/16"]
+  location            = "East US"
+  resource_group_name  = "my-rg"
+
+  subnet_names         = ["private-subnet"]
+  subnet_prefixes      = ["10.0.1.0/24"]
+
+  private_endpoint_subnet_name = "private-endpoint"
+}
+
 ## Enable or disable tracing tags
 
 We're using [BridgeCrew Yor](https://github.com/bridgecrewio/yor) and [yorbox](https://github.com/lonegunmanb/yorbox) to help manage tags consistently across infrastructure as code (IaC) frameworks. In this module you might see tags like:
